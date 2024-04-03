@@ -1,5 +1,6 @@
-// http://stackoverflow.com/questions/10343913/how-to-create-a-web-worker-from-a-string
+"use strict";
 
+// http://stackoverflow.com/questions/10343913/how-to-create-a-web-worker-from-a-string
 var URL = window.URL || window.webkitURL;
 
 module.exports = function (content) {
@@ -8,19 +9,14 @@ module.exports = function (content) {
 
     try {
       // BlobBuilder = Deprecated, but widely implemented
-      var BlobBuilder = window.BlobBuilder ||
-      window.WebKitBlobBuilder ||
-      window.MozBlobBuilder ||
-      window.MSBlobBuilder;
-
+      var BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
       blob = new BlobBuilder();
-
       blob.append(content);
-
       blob = blob.getBlob('application/javascript; charset=utf-8');
     } catch (e) {
-      const blob = new Blob([content], { type: 'application/javascript' });
-
+      const blob = new Blob([content], {
+        type: 'application/javascript'
+      });
       const reader = new FileReaderSync();
       return reader.readAsDataURL(blob);
     }
